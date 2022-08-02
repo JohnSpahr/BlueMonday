@@ -1,0 +1,39 @@
+{
+    "name": "bluemonday",
+    "author": "John Spahr",
+    "version": "1.0.0",
+    "dependencies": {},
+    "pebble": {
+        "displayName": "Blue Monday '88",
+        "uuid": "4c43aacf-ddca-43fc-acef-0fb9320caddd",
+        "sdkVersion": "3",
+        "enableMultiJS": true,
+        "targetPlatforms": [
+            "basalt",
+            "chalk"
+        ],
+        "watchapp": {
+            "watchface": true
+        },
+        "resources": {
+            "media": [{
+                    "file": "images/icon.png",
+                    "menuIcon": true,
+                    "name": "IMAGE_MONO_ICON",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/bluemonday.png",
+                    "name": "IMAGE_BLUE_MONDAY",
+                    "type": "bitmap"
+                },
+                {
+                    "type": "font",
+                    "name": "FONT_MESMERIZE_24",
+                    "file": "fonts/mesmerize.ttf",
+                    "compatibility": "2.7"
+                }
+            ]
+        }
+    }
+}
