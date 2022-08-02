@@ -82,7 +82,7 @@ static void window_load(Window *window)
 
   // create time text layer...
   s_time_layer = text_layer_create(
-      GRect(0, PBL_IF_ROUND_ELSE(14, 4), bounds.size.w, bounds.size.h));
+      GRect(0, PBL_IF_ROUND_ELSE(20, 4), bounds.size.w, bounds.size.h));
 
   // create GFonts for text layers...
   s_time_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_MESMERIZE_24));
