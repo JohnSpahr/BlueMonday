@@ -9,7 +9,7 @@
 
 static Window *window;            // window object
 static BitmapLayer *bitmap_layer; // layer to display the bitmap
-static GBitmap *blue_monday;       // color blue monday cover bitmap
+static GBitmap *blue_monday;      // color blue monday cover bitmap
 static TextLayer *s_time_layer;   // the time (text layer)
 static GFont s_time_font;         // custom time font
 
@@ -24,18 +24,23 @@ static void update_time()
   // write the current time into buffer...
   static char s_buffer[8];
 
-  // display this time on the TextLayer...
+  // format current time
+  strftime(s_buffer, sizeof(s_buffer), clock_is_24h_style() ? "%H:%M" : "%I:%M", tick_time);
+
+  // set textlayer text to current time
+  text_layer_set_text(s_time_layer, s_buffer);
+
+  // change text color depending on connection status
   if (isConnected)
   {
-    // if watch is connected to phone, just display time
-    strftime(s_buffer, sizeof(s_buffer), clock_is_24h_style() ? "%H:%M" : "%I:%M", tick_time);
+    // if watch is connected to phone, set color to white
+    text_layer_set_text_color(s_time_layer, GColorWhite);
   }
   else
   {
-    // if watch is NOT connected to phone, show brackets around time to indicate this
-    strftime(s_buffer, sizeof(s_buffer), clock_is_24h_style() ? "[%H:%M]" : "[%I:%M]", tick_time);
+    // if watch is NOT connected to phone, set color to orange
+    text_layer_set_text_color(s_time_layer, GColorOrange);
   }
-  text_layer_set_text(s_time_layer, s_buffer); // set text layer to display time
 }
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed)
@@ -45,8 +50,8 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed)
 
 static void load_background()
 {
-  blue_monday = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BLUE_MONDAY);
-  bitmap_layer_set_bitmap(bitmap_layer, blue_monday); // set bitmap layer image
+  blue_monday = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BLUE_MONDAY); // create bitmap from image resource
+  bitmap_layer_set_bitmap(bitmap_layer, blue_monday);                        // set bitmap layer image
 }
 
 static void bluetooth_callback(bool connected)
@@ -73,7 +78,7 @@ static void window_load(Window *window)
 
   bitmap_layer = bitmap_layer_create(bounds);                          // create bitmap layer
   layer_add_child(window_layer, bitmap_layer_get_layer(bitmap_layer)); // add bitmap layer to window
-  bitmap_layer_set_background_color(bitmap_layer, GColorBlack); // set bitmap layer background color to black
+  bitmap_layer_set_background_color(bitmap_layer, GColorBlack);        // set bitmap layer background color to black
 
   // create time text layer...
   s_time_layer = text_layer_create(
@@ -101,7 +106,7 @@ static void window_unload(Window *window)
   // get rid of bitmap layer
   bitmap_layer_destroy(bitmap_layer);
 
-  //destroy bitmap
+  // destroy bitmap
   gbitmap_destroy(blue_monday);
 
   // destroy clock text layer
